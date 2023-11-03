@@ -1,0 +1,31 @@
+#!/usr/bin/env php
+
+<?php
+
+declare(strict_types=1);
+
+/**
+* Tusk console bootstrap file.
+*/
+
+if (php_sapi_name() !== 'cli') {
+    exit;
+}
+
+require __DIR__ . '/vendor/autoload.php';
+
+use Tusk\App;
+
+$app = new App();
+
+$app->registerCommand('hello', function (array $argv) use ($app) {
+    $name = $argv[2] ?? "World";
+    $app->getPrinter()->display("Hello $name!!!");
+});
+
+$app->registerCommand('help', function (array $argv) use ($app) {
+    $name = $argv[2] ?? "World";
+    $app->getPrinter()->display("usage: tusk hello [ your name ]");
+});
+
+$app->runCommand($argv);
